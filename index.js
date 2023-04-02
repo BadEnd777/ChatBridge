@@ -11,6 +11,13 @@ module.exports = {
      * });
      */
     Client: require('./dist/Client').Client,
+    /**
+     * @type {Collection}
+     * @example
+     * const { Collection } = require('@badend/chatbridge');
+     * 
+     * client.messages = new Collection();
+    */
     Collection: require('./dist/Collection').Collection,
     /**
      * @type {QuickReplies}

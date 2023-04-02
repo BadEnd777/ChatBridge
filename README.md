@@ -1,4 +1,4 @@
-## Chat Bridge
+# Chat Bridge
 
 [![npm](https://img.shields.io/npm/v/@badend/chatbridge)](https://www.npmjs.com/package/@badend/chatbridge)
 [![npm](https://img.shields.io/npm/dt/@badend/chatbridge)](https://www.npmjs.com/package/@badend/chatbridge)
@@ -6,302 +6,359 @@
 
 Chat Bridge is a library that allows you to create chatbots for Facebook Messenger. It is based on the Webhook API and uses Fastify as a server.
 
-### Table of Contents
+## Table of Contents
 
-- [Installation](#installation)
 - [Credits](#credits)
+- [Installation](#installation)
 - [Usage](#usage)
 - [API](#api)
   - [Client](#client)
-    - [Constructor](#constructor)
-    - [Methods](#methods)
-    - [Events](#events)
   - [Collection](#collection)
-    - [Constructor](#constructor-1)
-    - [Methods](#methods-1)
-  - [PersistentMenu](#persistentmenu)
-    - [Constructor](#constructor-2)
-    - [Methods](#methods-2)
 - [Templates](#templates)
-    - [QuickReplies](#quickreplies)
-    - [ButtonTemplate](#buttontemplate)
-    - [CouponTemplate](#coupontemplate)
-    - [FeedbackTemplate](#feedbacktemplate)
-    - [GenericTemplate](#generictemplate)
-    - [MediaTemplate](#mediatemplate)
-    - [ReceiptTemplate](#receipttemplate)
+  - [QuickReplies](#quickreplies)
+  - [ButtonTemplate](#buttontemplate)
+  - [CouponTemplate](#coupontemplate)
+  - [FeedbackTemplate](#feedbacktemplate)
+  - [GenericTemplate](#generictemplate)
+  - [MediaTemplate](#mediatemplate)
+  - [ReceiptTemplate](#receipttemplate)
+  - [PersistentMenu](#persistentmenu)
 - [License](#license)
 
-### Installation
+## Credits
 
-This project is available on [npm](https://www.npmjs.com/package/@badend/chatbridge). To install it, run the following command:
+- [Fastify](https://www.fastify.io/) - Fast and low overhead web framework, for Node.js
+- [axios](https://axios-http.com/) - Promise based HTTP client for the browser and node.js
+
+## Installation
+
+To install the library, run the following command:
 
 ```bash
 npm install @badend/chatbridge
 ```
 
-### Credits
+## Usage
 
-This project uses the following packages:
+To use the library, you need to create a new instance of the `Client` class and pass it the configuration object. The configuration object must contain the following properties:
 
-- [axios](https://www.npmjs.com/package/axios) - Promise based HTTP client for the browser and node.js
-- [fastify](https://www.npmjs.com/package/fastify) - Fast and low overhead web framework, for Node.js
+- `accessToken` - Page Access Token of your Facebook App
+- `verifyToken` - Verify Token of your Facebook App
+  = `webHookPath` - Path to the webhook (default: `/webhook`)
+- `port` - Port on which the server will be launched (default: `3000`)
 
-### Usage
-
-The following example shows how to create a simple chatbot that responds to the user's messages with a greeting.
-
-```javascript
-const { Client, Collection } = require('@badend/chatbridge');
+```js
+const { Client } = require("@badend/chatbridge");
 
 const client = new Client({
-    accessToken: 'YOUR_ACCESS_TOKEN',
-    verifyToken: 'YOUR_VERIFY_TOKEN',
-    // port: 3000 <-- optional
+  accessToken: "YOUR_ACCESS_TOKEN",
+  verifyToken: "YOUR_VERIFY_TOKEN",
+  webHookPath: "/webhook", // Optional
+  port: 3000, // Optional
 });
 
-client.on('message', event => {
-    const { sender, message } = event;
-    client.sendTextMessage(sender.id, `Hello, ${message.text}!`);
-});
-
-client.start(); // The server will create a webhook at https://<your-domain>/webhook
+client.start(); // Start the server
 ```
 
-### API
+## API
 
-#### Client
+### `Client`
 
-The Client class is the main class of the library. It is responsible for handling the webhook and sending messages to the user.
+The `Client` class is the main class of the library. It is responsible for creating a webhook and handling messages.
 
-##### Constructor
+#### `constructor(options)`
 
-The constructor takes in the following parameters:
+Creates a new instance of the `Client` class.
 
-- `accessToken` - The access token of the Facebook page.
-- `verifyToken` - The verify token of the Facebook page.
-- `port` - The port to listen to.
+| Parameter             | Type     | Description                                                 |
+| :-------------------- | :------- | :---------------------------------------------------------- |
+| `options`             | `Object` | Configuration object                                        |
+| `options.accessToken` | `string` | Page Access Token of your Facebook App                      |
+| `options.verifyToken` | `string` | Verify Token of your Facebook App                           |
+| `options.webHookPath` | `string` | Path to the webhook (default: `/webhook`)                   |
+| `options.port`        | `number` | Port on which the server will be launched (default: `3000`) |
 
-##### Methods
+#### `start(callback)`
 
-- `setGreetings(text)` - This method is used to set the greetings text. It takes in the following parameters:
-    - `text` - The greetings text.
-- `setGetStarted(payload)` - This method is used to set the get started button. It takes in the following parameters:
-    - `payload` - The payload of the get started button.
-- `sendAction(sender_psid, action)` - This method is used to send actions to the user. It takes in the following parameters:
-    - `sender_psid` - The sender id of the user.
-    - `action` - The action to be sent to the user.
-- `sendTypingOn(sender_psid)` - This method is used to send typing on to the user.
-- `sendTypingOff(sender_psid)` - This method is used to send typing off to the user.
-- `sendMarkSeen(sender_psid)` - This method is used to send mark seen to the user.
-- `sendPersistentMenu(sender_psid, menu)` - This method is used to send persistent menus to the user. It takes in the following parameters:
-    - `sender_psid` - The sender id of the user.
-    - `menu` - The persistent menu to be sent to the user.
-- `callSendAPI(sender_psid, response)` - This method is used to send messages to the user. It takes in the following parameters:
-  - `sender_psid` - The sender id of the user.
-  - `response` - The message to be sent to the user.
-- `sendTextMessage(sender_psid, text)` - This method is used to send text messages to the user. It takes in the following parameters:
-    - `sender_psid` - The sender id of the user.
-    - `text` - The text to be sent to the user.
-- `sendImageMessage(sender_psid, url)` - This method is used to send image messages to the user. It takes in the following parameters:
-    - `sender_psid` - The sender id of the user.
-    - `url` - The url of the image to be sent to the user.
-- `sendVideoMessage(sender_psid, url)` - This method is used to send video messages to the user. It takes in the following parameters:
-    - `sender_psid` - The sender id of the user.
-    - `url` - The url of the video to be sent to the user.
-- `sendAudioMessage(sender_psid, url)` - This method is used to send audio messages to the user. It takes in the following parameters:
-    - `sender_psid` - The sender id of the user.
-    - `url` - The url of the audio to be sent to the user.
-- `sendFileMessage(sender_psid, url)` - This method is used to send file messages to the user. It takes in the following parameters:
-    - `sender_psid` - The sender id of the user.
-    - `url` - The url of the file to be sent to the user.
-- `getUserProfile(sender_psid)` - This method is used to get the user profile. It takes in the following parameters:
-    - `sender_psid` - The sender id of the user.
-- `getPageInfo()` - This method is used to get the page info.
-- `start(callback)` - This method is used to start the server.
+Starts the server.
 
-##### Events
+| Parameter  | Type       | Description       |
+| :--------- | :--------- | :---------------- |
+| `callback` | `Function` | Callback function |
 
-- `message` - This event is emitted when the user sends a message to the bot.
-- `postback` - This event is emitted when the user clicks on a button.
-- `quick_reply` - This event is emitted when the user clicks on a quick reply.
-- `template` - This event is emitted when the user clicks on a template.
+#### `on(event, callback)`
 
-#### Collection
+Adds a listener to the specified event.
 
-The Collection class is used to organize commands and handlers.
+| Parameter  | Type       | Description       |
+| :--------- | :--------- | :---------------- |
+| `event`    | `string`   | Event name        |
+| `callback` | `Function` | Callback function |
 
-##### Constructor
+#### `getUserInfo(userId)`
 
-The constructor takes in no parameters.
+Returns information about the user.
 
-##### Methods
+| Parameter | Type     | Description |
+| :-------- | :------- | :---------- |
+| `userId`  | `string` | User ID     |
 
-- `add(name, command)` - This method is used to add a command to the collection. It takes in the following parameters:
-  - `name` - The name of the command.
-  - `command` - The command to be added.
-- `get(name)` - This method is used to get a command from the collection. It takes in the following parameters:
-    - `name` - The name of the command.
-- `execute(name, ...args)` - This method is used to execute a command from the collection. It takes in the following parameters:
-    - `name` - The name of the command.
-    - `...args` - The arguments to be passed to the command.
+#### `sendRequest(method, path, data)`
 
-#### PersistentMenu
+Sends a request to the Facebook API.
+Example:
 
-The PersistentMenu class is used to create persistent menus.
-Work with `sendPersistentMenu` method of the `Client` class.
+```js
+// Default url: https://graph.facebook.com/v16.0/me/
+client.sendRequest("POST", "messages", {
+  recipient: {
+    id: "USER_ID",
+  },
+  message: {
+    text: "Hello!",
+  },
+});
+```
 
-##### Constructor
+| Parameter | Type     | Description    |
+| :-------- | :------- | :------------- |
+| `method`  | `string` | Request method |
+| `path`    | `string` | Request path   |
+| `data`    | `Object` | Request data   |
 
-The constructor takes in the following parameters:
+### `Collection`
 
-- `psid` - The psid of the user.
+The `Collection` class is a collection of items.
 
-##### Methods
+#### `constructor()`
 
-- `addCallToAction(title, payload, webviewHeightRatio)` - This method is used to add a call to action to the menu. It takes in the following parameters:
-    - `title` - The title of the call to action.
-    - `payload` - The payload of the call to action.
-    - `webviewHeightRatio` - The webview height ratio of the call to action.
+Creates a new instance of the `Collection` class.
 
-### Templates
+#### `add(item)`
 
-This framework provides a set of templates that can be used to send messages to the user. These templates are used by the `QuickReplies`, `ButtonTemplate`, `CouponTemplate`, `FeedbackTemplate`, `GenericTemplate`, `MediaTemplate` and `ReceiptTemplate` classes. All templates use the `sendApi` method to send messages to the user.
+Adds an item to the collection.
 
-#### QuickReplies
+| Parameter | Type     | Description |
+| :-------- | :------- | :---------- |
+| `item`    | `Object` | Item        |
 
-```javascript
+#### `get(name)`
+
+Returns an item from the collection.
+
+| Parameter | Type     | Description |
+| :-------- | :------- | :---------- |
+| `name`    | `string` | Item name   |
+
+## Templates
+
+The library has a built-in template system. To use it, you need to create a new instance of the `QuickReplies`, `ButtonTemplate`, `CouponTemplate`, `FeedbackTemplate`, `GenericTemplate`, `MediaTemplate`, `ReceiptTemplate` or `PersistentMenu` class and pass it the configuration object.
+
+### `QuickReplies`
+
+The `QuickReplies` class is responsible for creating quick replies. Use with the `sendApi` method.
+
+```js
 const { QuickReplies, QuickReply } = require('@badend/chatbridge');
 
-const quickReplies = new QuickReplies('What\'s your favorite color?')
-    .addQuickReply([
-        new QuickReply('Red')
-            .setPayload('payload')
-            .setImageUrl('https://www.example.com/image.png'),
-        new QuickReply('Green')
-            .setPayload('payload')
-            .setImageUrl('https://www.example.com/image.png')
-    ]);
+const quickReplies = new QuickReplies('Select an option:')
+  .addQuickReply([
+      new QuickReply('Option 1')
+          .setPayload('option_1'),
+          .setImageUrl('https://example.com/image.png'), // Optional
+      new QuickReply('Option 2')
+          .setPayload('option_2')
+  ]);
+
+client.sendApi('USER_ID', quickReplies);
 ```
 
-#### ButtonTemplate
+### `ButtonTemplate`
 
-```javascript
-const { ButtonTemplate, UrlButton, PostbackButton, CallButton } = require('@badend/chatbridge');
+The `ButtonTemplate` class is responsible for creating a button template. Use with the `sendApi` method.
 
-const button = new ButtonTemplate('What do you want to do next?')
-    .addButtons([ // 3 buttons maximum
-        new UrlButton('Open URL', 'https://www.example.com'),
-        new PostbackButton('Trigger Postback', 'payload'),
-        new CallButton('Call Phone', '0123456789'),
-    ]);
+```js
+const {
+  ButtonTemplate,
+  UrlButton,
+  PostbackButton,
+  CallButton,
+} = require("@badend/chatbridge");
+
+const button = new ButtonTemplate("Select an option:").addButton([
+  // 3 buttons max
+  new UrlButton("Open website", "https://example.com"),
+  new PostbackButton("Send payload", "payload"),
+  new CallButton("Call", "+1234567890"),
+]);
+
+client.sendApi("USER_ID", button);
 ```
 
-#### CouponTemplate
+### `CouponTemplate`
 
-```javascript
-const { CouponTemplate } = require('@badend/chatbridge');
+The `CouponTemplate` class is responsible for creating a coupon template. Use with the `sendApi` method.
+
+```js
+const { CouponTemplate } = require("@badend/chatbridge");
 
 const coupon = new CouponTemplate()
-    .setTitle('This is a coupon')
-    .setSubtitle('This is a coupon subtitle')
-    .setCouponCode('123456789')
-    .setCouponUrl('https://www.example.com')
-    .setCouponUrlButtonTitle('Open URL')
-    .setCouponPreMessage("This is a coupon pre-message")
-    .setImageUrl('https://www.example.com/image.png')
-    .setPayload('payload');
+  .setTitle("Coupon")
+  .setSubtitle("Subtitle")
+  .setCouponCode("CODE")
+  .setCouponUrl("https://example.com/coupon")
+  .setCouponUrlButtonTitle("Open coupon")
+  .setCouponPreMessage("Pre message")
+  .setImageUrl("https://example.com/image.png")
+  .setPayload("payload");
+
+client.sendApi("USER_ID", coupon);
 ```
 
-#### FeedbackTemplate
+### `FeedbackTemplate`
 
-```javascript
-const { FeedbackTemplate, FeedbackScreen, FeedbackQuestion, FeedbackFollowUp, FeedbackType } = require('@badend/chatbridge');
+The `FeedbackTemplate` class is responsible for creating a feedback template. Use with the `sendApi` method.
+
+```js
+const {
+  FeedbackTemplate,
+  FeedbackScreen,
+  FeedbackQuestion,
+  FeedbackFollowUp,
+  FeedbackType,
+} = require("@badend/chatbridge");
 
 const feedback = new FeedbackTemplate()
-    .setTitle('This is a feedback')
-    .setSubtitle('This is a feedback subtitle')
-    .setButtonTitle('Send Feedback')
-    .setExpiresInDays(3)
-    .setBusinessPrivacyUrl('https://www.example.com')
-    .addFeedbackScreens([
-        new FeedbackScreen()
-            .addQuestions([
-                new FeedbackQuestion()
-                    .setQuestionId('question_1')
-                    .setQuestionType(FeedbackType.NPS)
-                    .setQuestionText('How likely are you to recommend us to a friend or colleague?')
-                    .setFollowUp(new FeedbackFollowUp('free_form', 'What can we do to improve?')), // Optional
-            ])
-    ]);
-```
-
-#### GenericTemplate
-
-```javascript
-const { GenericTemplate, GenericElement } = require('@badend/chatbridge');
-
-const generic = new GenericTemplate()
-    .addElements([
-        new GenericElement('Title')
-            .setImageUrl('https://www.example.com/image.png')
-            .setSubtitle('Subtitle')
-            /* .addButtons([ // Optional
-                new UrlButton('Open URL', 'https://www.example.com'),
-                new PostbackButton('Trigger Postback', 'payload'),
-            ]), */
-    ]);
-```
-
-#### MediaTemplate
-
-```javascript
-const { MediaTemplate, MediaElement } = require('@badend/chatbridge');
-
-const media = new MediaTemplate()
-    .addElements([
-        new MediaElement('image', 'https://www.facebook.com/<username>/photos/<photo_id>')
-            /* .addButtons([ // Optional
-                new UrlButton('Open URL', 'https://www.example.com'),
-                new PostbackButton('Trigger Postback', 'payload'),
-            ]), */
-    ]);
-```
-
-#### ReceiptTemplate
-
-```javascript
-const { ReceiptTemplate, ReceiptElement, Adjustment } = require('@badend/chatbridge');
-
-const receipt = new ReceiptTemplate('Stephanie Meyer', '12345678902', 'USD', 'Visa 2345')
-    .setOrderUrl('http://example.com/order/123456')
-    .setTimestamp('1428444852')
-    .setAddress('1 Hacker Way', '', 'Menlo Park', '94025', 'CA', 'US')
-    .setSummary(75.00, 4.95, 6.19, 56.14)
-    .addAdjustments([
-        new Adjustment('New Customer Discount', 20),
-        new Adjustment('$10 Off Coupon', 10)
-    ])
-    .addElements([
-        new ReceiptElement(
-            'Classic White T-Shirt',
-            '100% Soft and Luxurious Cotton',
-            2,
-            50,
-            'USD',
-            'http://example.com/white-t-shirt.png'
-        ),
-        new ReceiptElement(
-            'Classic Gray T-Shirt',
-            '100% Soft and Luxurious Cotton',
-            1,
-            25,
-            'USD',
-            'http://example.com/gray-t-shirt.png'
+  .setTitle("This is a feedback")
+  .setSubtitle("This is a feedback subtitle")
+  .setButtonTitle("Send Feedback")
+  .setExpiresInDays(3)
+  .setBusinessPrivacyUrl("https://www.example.com")
+  .addFeedbackScreens([
+    new FeedbackScreen().addQuestions([
+      new FeedbackQuestion()
+        .setQuestionId("question_1")
+        .setQuestionType(FeedbackType.NPS)
+        .setQuestionText(
+          "How likely are you to recommend us to a friend or colleague?"
         )
-    ]);
+        .setFollowUp(
+          new FeedbackFollowUp("free_form", "What can we do to improve?")
+        ),
+    ]),
+  ]);
+
+client.sendApi("USER_ID", feedback);
 ```
 
-### License
+### `GenericTemplate`
 
-This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/licenses/MIT) for details.
+The `GenericTemplate` class is responsible for creating a generic template. Use with the `sendApi` method.
+
+```js
+const { GenericTemplate, GenericElement } = require("@badend/chatbridge");
+
+const generic = new GenericTemplate().addElements([
+  new GenericElement("Title")
+    .setImageUrl("https://www.example.com/image.png")
+    .setSubtitle("Subtitle"),
+    .addButtons([
+      new UrlButton("Open website", "https://example.com"),
+      new PostbackButton("Send payload", "payload"),
+      new CallButton("Call", "+1234567890"),
+    ]),
+]);
+
+client.sendApi("USER_ID", generic);
+```
+
+### `MediaTemplate`
+
+The `MediaTemplate` class is responsible for creating a media template. Use with the `sendApi` method.
+
+```js
+const { MediaTemplate, MediaElement } = require("@badend/chatbridge");
+
+const media = new MediaTemplate().addElements([
+  new MediaElement("<image/video>", "https://example.com/image.png").addButtons(
+    [
+      new UrlButton("Open website", "https://example.com"),
+      new PostbackButton("Send payload", "payload"),
+      new CallButton("Call", "+1234567890"),
+    ]
+  ),
+]);
+
+client.sendApi("USER_ID", media);
+```
+
+### `ReceiptTemplate`
+
+The `ReceiptTemplate` class is responsible for creating a receipt template. Use with the `sendApi` method.
+
+```js
+const {
+  ReceiptTemplate,
+  ReceiptElement,
+  Adjustment,
+} = require("@badend/chatbridge");
+
+const {
+  ReceiptTemplate,
+  ReceiptElement,
+  Adjustment,
+} = require("@badend/chatbridge");
+
+const receipt = new ReceiptTemplate(
+  "Stephanie Meyer",
+  "12345678902",
+  "USD",
+  "Visa 2345"
+)
+  .setOrderUrl("http://example.com/order/123456")
+  .setTimestamp("1428444852")
+  .setAddress("1 Hacker Way", "", "Menlo Park", "94025", "CA", "US")
+  .setSummary(75.0, 4.95, 6.19, 56.14)
+  .addAdjustments([
+    new Adjustment("New Customer Discount", 20),
+    new Adjustment("$10 Off Coupon", 10),
+  ])
+  .addElements([
+    new ReceiptElement(
+      "Classic White T-Shirt",
+      "100% Soft and Luxurious Cotton",
+      2,
+      50,
+      "USD",
+      "http://example.com/white-t-shirt.png"
+    ),
+    new ReceiptElement(
+      "Classic Gray T-Shirt",
+      "100% Soft and Luxurious Cotton",
+      1,
+      25,
+      "USD",
+      "http://example.com/gray-t-shirt.png"
+    ),
+  ]);
+
+client.sendApi("USER_ID", receipt);
+```
+
+### `PersistentMenu`
+
+The `PersistentMenu` class is responsible for creating a persistent menu. Use with the `setPersistentMenu` method.
+
+```js
+const { PersistentMenu } = require("@badend/chatbridge");
+
+const menu = new PersistentMenu()
+  .addMenuItems('Get Started', 'GET_STARTED'),
+  .addMenuItems('Website', 'https://example.com', 'full');
+
+client.setPersistentMenu(menu);
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details

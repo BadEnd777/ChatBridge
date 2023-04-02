@@ -8,6 +8,7 @@ class Client {
         this.app = fastify();
         this.accessToken = options.accessToken;
         this.verifyToken = options.verifyToken;
+        this.webHookPath = options.webHookPath || "/webhook";
         this.port = options.port || 3000;
     }
     on(event, callback) {
@@ -19,7 +20,7 @@ class Client {
         }
     }
     start(callback) {
-        this.app.post("/webhook", async (request, reply) => {
+        this.app.post(this.webHookPath, async (request, reply) => {
             const body = request.body;
             if (body.object === "page") {
                 body.entry.forEach((entry) => {
@@ -39,7 +40,7 @@ class Client {
             }
             reply.send();
         });
-        this.app.get("/webhook", async (request, reply) => {
+        this.app.get(this.webHookPath, (request, reply) => {
             if (request.query["hub.mode"] === "subscribe" && request.query["hub.verify_token"] === this.verifyToken) {
                 reply.send(request.query["hub.challenge"]);
             } else {

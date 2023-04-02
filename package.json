@@ -2,7 +2,7 @@
   "author": "@BadEnd777 (https://github.com/BadEnd777)",
   "license": "MIT",
   "name": "@badend/chatbridge",
-  "version": "1.0.1-latest",
+  "version": "1.0.2-beta",
   "description": "Chat Bridge is a library that allows you to create chatbots for Facebook Messenger. It is based on the Webhook API and uses Fastify as a server.",
   "main": "index.js",
   "repository": {

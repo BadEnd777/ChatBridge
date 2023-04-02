@@ -6,11 +6,8 @@ class Collection {
     add(item) {
         this.items.push(item);
     }
-    remove(item) {
-        this.items = this.items.filter((i) => i !== item);
-    }
-    get() {
-        return this.items;
+    get(name) {
+        return this.items.find(item => item.name === name);
     }
 }
 exports.Collection = Collection;
