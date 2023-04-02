@@ -1,7 +1,7 @@
 {
   "author": "@BadEnd777 (https://github.com/BadEnd777)",
   "license": "MIT",
-  "name": "ChatBridge",
+  "name": "@badend/chatbridge",
   "version": "1.0.0",
   "description": "A webhook client for Facebook Messenger API",
   "main": "index.js",
