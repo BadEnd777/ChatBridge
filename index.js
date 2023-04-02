@@ -3,7 +3,7 @@ module.exports = {
     /**
      * @type {Client}
      * @example
-     * const { Client } = require('ChatBridge');
+     * const { Client } = require('@badend/chatbridge');
      * const client = new Client({
      *     accessToken: 'your_access_token',
      *     verifyToken: 'your_verify_token',
@@ -15,7 +15,7 @@ module.exports = {
     /**
      * @type {QuickReplies}
      * @example
-     * const { QuickReplies } = require('ChatBridge');
+     * const { QuickReplies } = require('@badend/chatbridge');
      * 
      * const quickReplies = new QuickReplies('What\'s your favorite color?')
      *      .addQuickReply([
@@ -26,7 +26,7 @@ module.exports = {
     /**
      * @type {QuickReply}
      * @example
-     * const { QuickReply } = require('ChatBridge');
+     * const { QuickReply } = require('@badend/chatbridge');
      *      
      * const quickReply = new QuickReply('Red', 'red');
      * 
@@ -35,7 +35,7 @@ module.exports = {
     /**
      * @type {ButtonTemplate}
      * @example
-     * const { ButtonTemplate } = require('ChatBridge');
+     * const { ButtonTemplate } = require('@badend/chatbridge');
      * 
      * const buttonTemplate = new ButtonTemplate('What do you want to do next?')
      *      .addButtons([ // 3 buttons maximum
@@ -46,7 +46,7 @@ module.exports = {
     /**
      * @type {CouponTemplate}
      * @example
-     * const { CouponTemplate } = require('ChatBridge');
+     * const { CouponTemplate } = require('@badend/chatbridge');
      * 
      * const coupon = new CouponTemplate()
      *     .setTitle('This is a coupon')
@@ -62,7 +62,7 @@ module.exports = {
     /**
      * @type {FeedbackTemplate}
      * @example
-     * const { FeedbackTemplate } = require('ChatBridge');
+     * const { FeedbackTemplate } = require('@badend/chatbridge');
      * 
      * const feedback = new FeedbackTemplate()
      *     .setTitle('This is a feedback')
@@ -75,7 +75,7 @@ module.exports = {
     /**
      * @type {FeedbackScreen}
      * @example
-     * const { FeedbackScreen } = require('ChatBridge');
+     * const { FeedbackScreen } = require('@badend/chatbridge');
      * 
      * const feedbackScreen = new FeedbackScreen()
      *      .addQuestions([
@@ -86,7 +86,7 @@ module.exports = {
     /**
      * @type {FeedbackQuestion}
      * @example
-     * const { FeedbackQuestion } = require('ChatBridge');
+     * const { FeedbackQuestion } = require('@badend/chatbridge');
      * 
      * const feedbackQuestion = new FeedbackQuestion()
      *      .setQuestionId('question_1')
@@ -99,7 +99,7 @@ module.exports = {
     /**
      * @type {FeedbackFollowUp}
      * @example
-     * const { FeedbackFollowUp } = require('ChatBridge');
+     * const { FeedbackFollowUp } = require('@badend/chatbridge');
      * 
      * const feedbackFollowUp = new FeedbackFollowUp('free_form', 'What can we do to improve?');
     */
@@ -107,7 +107,7 @@ module.exports = {
     /**
      * @type {FeedbackType}
      * @example
-     * const { FeedbackType } = require('ChatBridge');
+     * const { FeedbackType } = require('@badend/chatbridge');
      * 
      * const feedback = new FeedbackTemplate()
      *         // ...
@@ -122,7 +122,7 @@ module.exports = {
     /**
      * @type {GenericTemplate}
      * @example
-     * const { GenericTemplate } = require('ChatBridge');
+     * const { GenericTemplate } = require('@badend/chatbridge');
      * 
      * const generic = new GenericTemplate()
      *     .addElements([
@@ -133,7 +133,7 @@ module.exports = {
     /**
      * @type {GenericElement}
      * @example
-     * const { GenericTemplate, GenericElement } = require('ChatBridge');
+     * const { GenericTemplate, GenericElement } = require('@badend/chatbridge');
      * 
      * const generic = new GenericTemplate()
      *     .addElements([
@@ -149,7 +149,7 @@ module.exports = {
     /**
      * @type {MediaTemplate}
      * @example
-     * const { MediaTemplate, MediaElement } = require('ChatBridge');
+     * const { MediaTemplate, MediaElement } = require('@badend/chatbridge');
      * 
      * const media = new MediaTemplate()
      *     .addElements([
@@ -160,7 +160,7 @@ module.exports = {
     /**
      * @type {MediaElement}
      * @example
-     * const { MediaTemplate, MediaElement } = require('ChatBridge');
+     * const { MediaTemplate, MediaElement } = require('@badend/chatbridge');
      * 
      * const media = new MediaTemplate()
      *     .addElements([
@@ -174,7 +174,7 @@ module.exports = {
     /**
      * @type {ReceiptTemplate}
      * @example
-     * const { ReceiptTemplate } = require('ChatBridge');
+     * const { ReceiptTemplate } = require('@badend/chatbridge');
      * 
      * const receipt = new ReceiptTemplate('Stephanie Meyer', '12345678902', 'USD', 'Visa 2345')
      *     .setOrderUrl('http://petersapparel.parseapp.com/order?order_id=123456')
@@ -192,7 +192,7 @@ module.exports = {
     /**
      * @type {ReceiptElement}
      * @example
-     * const { ReceiptTemplate, ReceiptElement } = require('ChatBridge');
+     * const { ReceiptTemplate, ReceiptElement } = require('@badend/chatbridge');
      * 
      * const receipt = new ReceiptTemplate('Stephanie Meyer', '12345678902', 'USD', 'Visa 2345')
      *     .addElements([
@@ -210,7 +210,7 @@ module.exports = {
     /**
      * @type {Adjustment}
      * @example
-     * const { ReceiptTemplate, Adjustment } = require('ChatBridge');
+     * const { ReceiptTemplate, Adjustment } = require('@badend/chatbridge');
      * 
      * const receipt = new ReceiptTemplate('Stephanie Meyer', '12345678902', 'USD', 'Visa 2345')
      *      .addAdjustments([
@@ -221,7 +221,7 @@ module.exports = {
     /**
      * @type {PersistentMenu}
      * @example
-     * const { PersistentMenu } = require('ChatBridge');
+     * const { PersistentMenu } = require('@badend/chatbridge');
      * 
      * const persistentMenu = new PersistentMenu()
      *      .addMenuItems('Item 1', 'payload_1');
@@ -230,7 +230,7 @@ module.exports = {
     /**
      * @type {CallButton}
      * @example
-     * const { CallButton } = require('ChatBridge');
+     * const { CallButton } = require('@badend/chatbridge');
      * 
      * const callButton = new CallButton('Call Us', '+16505551234');
     */
@@ -238,7 +238,7 @@ module.exports = {
     /**
      * @type {PostbackButton}
      * @example
-     * const { PostbackButton } = require('ChatBridge');
+     * const { PostbackButton } = require('@badend/chatbridge');
      * 
      * const postbackButton = new PostbackButton('Postback Button', 'payload');
     */
@@ -246,7 +246,7 @@ module.exports = {
     /**
      * @type {UrlButton}
      * @example
-     * const { UrlButton } = require('ChatBridge');
+     * const { UrlButton } = require('@badend/chatbridge');
      * 
      * const urlButton = new UrlButton('Visit Website', 'https://www.example.com');
     */

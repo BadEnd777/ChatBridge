@@ -1,13 +1,10 @@
-## Facebook Webhook Client
+## Chat Bridge
 
-This is a webhook client for Facebook Messenger. It is built on top of the [Facebook Messenger Platform](https://developers.facebook.com/docs/messenger-platform).
+[![npm](https://img.shields.io/npm/v/@badend/chatbridge)](https://www.npmjs.com/package/@badend/chatbridge)
+[![npm](https://img.shields.io/npm/dt/@badend/chatbridge)](https://www.npmjs.com/package/@badend/chatbridge)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FBadEnd777%2FChatBridge&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visit&edge_flat=false)](https://hits.seeyoufarm.com)
 
-<div align="center">
-
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FBadEnd777%2Ffb-webhook-client&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
-[![npm](https://img.shields.io/npm/v/ChatBridge)](https://www.npmjs.com/package/ChatBridge)
-
-</div>
+Chat Bridge is a library that allows you to create chatbots for Facebook Messenger. It is based on the Webhook API and uses Fastify as a server.
 
 ### Table of Contents
 
@@ -37,10 +34,10 @@ This is a webhook client for Facebook Messenger. It is built on top of the [Face
 
 ### Installation
 
-This project is available on [npm](https://www.npmjs.com/package/ChatBridge). To install it, run the following command:
+This project is available on [npm](https://www.npmjs.com/package/@badend/chatbridge). To install it, run the following command:
 
 ```bash
-npm install ChatBridge
+npm install @badend/chatbridge
 ```
 
 ### Credits
@@ -55,7 +52,7 @@ This project uses the following packages:
 The following example shows how to create a simple chatbot that responds to the user's messages with a greeting.
 
 ```javascript
-const { Client, Collection } = require('ChatBridge');
+const { Client, Collection } = require('@badend/chatbridge');
 
 const client = new Client({
     accessToken: 'YOUR_ACCESS_TOKEN',
@@ -68,7 +65,7 @@ client.on('message', event => {
     client.sendTextMessage(sender.id, `Hello, ${message.text}!`);
 });
 
-client.start(() => console.log('Server is running on port 3000'));
+client.start(); // The server will create a webhook at https://<your-domain>/webhook
 ```
 
 ### API
@@ -174,7 +171,7 @@ This framework provides a set of templates that can be used to send messages to 
 #### QuickReplies
 
 ```javascript
-const { QuickReplies, QuickReply } = require('ChatBridge');
+const { QuickReplies, QuickReply } = require('@badend/chatbridge');
 
 const quickReplies = new QuickReplies('What\'s your favorite color?')
     .addQuickReply([
@@ -190,7 +187,7 @@ const quickReplies = new QuickReplies('What\'s your favorite color?')
 #### ButtonTemplate
 
 ```javascript
-const { ButtonTemplate, UrlButton, PostbackButton, CallButton } = require('ChatBridge');
+const { ButtonTemplate, UrlButton, PostbackButton, CallButton } = require('@badend/chatbridge');
 
 const button = new ButtonTemplate('What do you want to do next?')
     .addButtons([ // 3 buttons maximum
@@ -203,7 +200,7 @@ const button = new ButtonTemplate('What do you want to do next?')
 #### CouponTemplate
 
 ```javascript
-const { CouponTemplate } = require('ChatBridge');
+const { CouponTemplate } = require('@badend/chatbridge');
 
 const coupon = new CouponTemplate()
     .setTitle('This is a coupon')
@@ -219,7 +216,7 @@ const coupon = new CouponTemplate()
 #### FeedbackTemplate
 
 ```javascript
-const { FeedbackTemplate, FeedbackScreen, FeedbackQuestion, FeedbackFollowUp, FeedbackType } = require('ChatBridge');
+const { FeedbackTemplate, FeedbackScreen, FeedbackQuestion, FeedbackFollowUp, FeedbackType } = require('@badend/chatbridge');
 
 const feedback = new FeedbackTemplate()
     .setTitle('This is a feedback')
@@ -242,7 +239,7 @@ const feedback = new FeedbackTemplate()
 #### GenericTemplate
 
 ```javascript
-const { GenericTemplate, GenericElement } = require('ChatBridge');
+const { GenericTemplate, GenericElement } = require('@badend/chatbridge');
 
 const generic = new GenericTemplate()
     .addElements([
@@ -259,7 +256,7 @@ const generic = new GenericTemplate()
 #### MediaTemplate
 
 ```javascript
-const { MediaTemplate, MediaElement } = require('ChatBridge');
+const { MediaTemplate, MediaElement } = require('@badend/chatbridge');
 
 const media = new MediaTemplate()
     .addElements([
@@ -274,7 +271,7 @@ const media = new MediaTemplate()
 #### ReceiptTemplate
 
 ```javascript
-const { ReceiptTemplate, ReceiptElement, Adjustment } = require('ChatBridge');
+const { ReceiptTemplate, ReceiptElement, Adjustment } = require('@badend/chatbridge');
 
 const receipt = new ReceiptTemplate('Stephanie Meyer', '12345678902', 'USD', 'Visa 2345')
     .setOrderUrl('http://petersapparel.parseapp.com/order?order_id=123456')
