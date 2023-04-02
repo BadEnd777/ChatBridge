@@ -166,7 +166,7 @@ The constructor takes in the following parameters:
 
 ### Templates
 
-This framework provides a set of templates that can be used to send messages to the user. These templates are used by the `QuickReplies`, `ButtonTemplate`, `CouponTemplate`, `FeedbackTemplate`, `GenericTemplate`, `MediaTemplate` and `ReceiptTemplate` classes. All templates use the `callSendAPI` method to send messages to the user.
+This framework provides a set of templates that can be used to send messages to the user. These templates are used by the `QuickReplies`, `ButtonTemplate`, `CouponTemplate`, `FeedbackTemplate`, `GenericTemplate`, `MediaTemplate` and `ReceiptTemplate` classes. All templates use the `sendApi` method to send messages to the user.
 
 #### QuickReplies
 
@@ -176,11 +176,11 @@ const { QuickReplies, QuickReply } = require('@badend/chatbridge');
 const quickReplies = new QuickReplies('What\'s your favorite color?')
     .addQuickReply([
         new QuickReply('Red')
-            .setPayload('DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED')
-            .setImageUrl('https://placehold.co/50x50/ff0000/ffffff?text=Red'),
+            .setPayload('payload')
+            .setImageUrl('https://www.example.com/image.png'),
         new QuickReply('Green')
-            .setPayload('DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN')
-            .setImageUrl('https://placehold.co/50x50/00ff00/ffffff?text=Green'),
+            .setPayload('payload')
+            .setImageUrl('https://www.example.com/image.png')
     ]);
 ```
 
@@ -192,7 +192,7 @@ const { ButtonTemplate, UrlButton, PostbackButton, CallButton } = require('@bade
 const button = new ButtonTemplate('What do you want to do next?')
     .addButtons([ // 3 buttons maximum
         new UrlButton('Open URL', 'https://www.example.com'),
-        new PostbackButton('Trigger Postback', 'DEVELOPER_DEFINED_PAYLOAD'),
+        new PostbackButton('Trigger Postback', 'payload'),
         new CallButton('Call Phone', '0123456789'),
     ]);
 ```
@@ -205,12 +205,12 @@ const { CouponTemplate } = require('@badend/chatbridge');
 const coupon = new CouponTemplate()
     .setTitle('This is a coupon')
     .setSubtitle('This is a coupon subtitle')
-    .setCouponCode('CODE123')
+    .setCouponCode('123456789')
     .setCouponUrl('https://www.example.com')
     .setCouponUrlButtonTitle('Open URL')
     .setCouponPreMessage("This is a coupon pre-message")
-    .setImageUrl('https://placehold.co/1000x1000/c9c9c9/000000?text=Image');
-    .setPayload('DEVELOPER_DEFINED_PAYLOAD');
+    .setImageUrl('https://www.example.com/image.png')
+    .setPayload('payload');
 ```
 
 #### FeedbackTemplate
@@ -244,11 +244,11 @@ const { GenericTemplate, GenericElement } = require('@badend/chatbridge');
 const generic = new GenericTemplate()
     .addElements([
         new GenericElement('Title')
-            .setImageUrl('https://placehold.co/1000x1000/c9c9c9/000000?text=Image')
+            .setImageUrl('https://www.example.com/image.png')
             .setSubtitle('Subtitle')
             /* .addButtons([ // Optional
-                new UrlButton('Open URL', 'https://www.google.com'),
-                new PostbackButton('Trigger Postback', 'DEVELOPER_DEFINED_PAYLOAD'),
+                new UrlButton('Open URL', 'https://www.example.com'),
+                new PostbackButton('Trigger Postback', 'payload'),
             ]), */
     ]);
 ```
@@ -260,10 +260,10 @@ const { MediaTemplate, MediaElement } = require('@badend/chatbridge');
 
 const media = new MediaTemplate()
     .addElements([
-        new MediaElement('image', 'https://www.facebook.com/borntodev/photos/a.830302417028053/6193246474066927/')
+        new MediaElement('image', 'https://www.facebook.com/<username>/photos/<photo_id>')
             /* .addButtons([ // Optional
-                new UrlButton('Open URL', 'https://www.google.com'),
-                new PostbackButton('Trigger Postback', 'DEVELOPER_DEFINED_PAYLOAD'),
+                new UrlButton('Open URL', 'https://www.example.com'),
+                new PostbackButton('Trigger Postback', 'payload'),
             ]), */
     ]);
 ```
@@ -274,7 +274,7 @@ const media = new MediaTemplate()
 const { ReceiptTemplate, ReceiptElement, Adjustment } = require('@badend/chatbridge');
 
 const receipt = new ReceiptTemplate('Stephanie Meyer', '12345678902', 'USD', 'Visa 2345')
-    .setOrderUrl('http://petersapparel.parseapp.com/order?order_id=123456')
+    .setOrderUrl('http://example.com/order/123456')
     .setTimestamp('1428444852')
     .setAddress('1 Hacker Way', '', 'Menlo Park', '94025', 'CA', 'US')
     .setSummary(75.00, 4.95, 6.19, 56.14)
@@ -289,7 +289,7 @@ const receipt = new ReceiptTemplate('Stephanie Meyer', '12345678902', 'USD', 'Vi
             2,
             50,
             'USD',
-            'http://petersapparel.parseapp.com/img/whiteshirt.png'
+            'http://example.com/white-t-shirt.png'
         ),
         new ReceiptElement(
             'Classic Gray T-Shirt',
@@ -297,7 +297,7 @@ const receipt = new ReceiptTemplate('Stephanie Meyer', '12345678902', 'USD', 'Vi
             1,
             25,
             'USD',
-            'http://petersapparel.parseapp.com/img/grayshirt.png'
+            'http://example.com/gray-t-shirt.png'
         )
     ]);
 ```
