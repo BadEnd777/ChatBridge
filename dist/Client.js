@@ -97,11 +97,16 @@ class Client {
     async getPageInfo() {
         return this.sendRequest("GET", "");
     }
-    async sendApi(data) {
-        return this.sendRequest("POST", "messages", data);
+    async sendApi(recipientId, data) {
+        return this.sendRequest("POST", "messages", {
+            recipient: {
+                id: recipientId,
+            },
+            message: data,
+        });
     }
     async sendAction(recipientId, action) {
-        return this.sendApi({
+        return this.sendRequest("POST", "messages", {
             recipient: {
                 id: recipientId,
             },
@@ -118,26 +123,16 @@ class Client {
         return this.sendAction(recipientId, "mark_seen");
     }
     async sendTextMessage(recipientId, text) {
-        return this.sendApi({
-            recipient: {
-                id: recipientId,
-            },
-            message: {
-                text,
-            },
+        return this.sendApi(recipientId, {
+            text,
         });
     }
     async sendAttachmentMessage(recipientId, type, url) {
-        return this.sendApi({
-            recipient: {
-                id: recipientId,
-            },
-            message: {
-                attachment: {
-                    type: type,
-                    payload: {
-                        url: url,
-                    },
+        return this.sendApi(recipientId, {
+            attachment: {
+                type,
+                payload: {
+                    url,
                 },
             },
         });
