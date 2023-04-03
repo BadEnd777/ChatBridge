@@ -1,6 +1,6 @@
 // .../dist/Client.js
+const { request } = require("undici");
 const fastify = require("fastify");
-const axios = require("axios");
 const constants = require("./Constants");
 class Client {
     constructor(options) {
@@ -60,20 +60,35 @@ class Client {
     }
     async getUserInfo(userId) {
         const url = `${constants.BASE_URL}${userId}?fields=first_name,last_name,profile_pic&access_token=${this.accessToken}`;
-        const response = await axios({
-            method: "GET",
-            url,
-        });
-        return response.data;   
+        const response = await request(url);
+        const { statusCode } = response;
+        const body = await response.body.json();
+        if (statusCode !== 200) {
+            throw new Error(
+                `[ChatBridge] ${body.error.message} (code: ${body.error.code}, type: ${body.error.type})`
+            );
+        }
+        return body;
     }
     async sendRequest(method, path, data) {
         const url = `${constants.MESSAGES_URL}${path}?access_token=${this.accessToken}`;
-        const response = await axios({
+        const body = JSON.stringify(data);
+        const headers = {
+            "Content-Type": "application/json",
+        };
+        const response = await request(url, {
             method,
-            url,
-            data,
+            body,
+            headers,
         });
-        return response.data;
+        const { statusCode } = response;
+        const bodyData = await response.body.json();
+        if (statusCode !== 200) {
+            throw new Error(
+                `[ChatBridge] ${bodyData.error.message} (code: ${bodyData.error.code}, type: ${bodyData.error.type})`
+            );
+        }
+        return bodyData;
     }
     async setGreetings(greetings) {
         return this.sendRequest("POST", "messenger_profile", {

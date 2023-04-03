@@ -1,34 +1,18 @@
-# Chat Bridge
+<div align="center">
+  <h1>Chat Bridge</h1>
+  <p><strong>Chat Bridge</strong> is a library that help you to create chatbots for Facebook Messenger. Just write a few lines of code and you can create a chatbot. It is based on the Webhook API and uses Fastify as a server.</p>
 
-[![npm](https://img.shields.io/npm/v/@badend/chatbridge)](https://www.npmjs.com/package/@badend/chatbridge)
-[![npm](https://img.shields.io/npm/dt/@badend/chatbridge)](https://www.npmjs.com/package/@badend/chatbridge)
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FBadEnd777%2FChatBridge&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visit&edge_flat=false)](https://hits.seeyoufarm.com)
+  <a href="https://www.npmjs.com/package/@badend/chatbridge"><img src="https://img.shields.io/npm/v/@badend/chatbridge?style=flat-square" alt="NPM Version"></a>
+  <a href="https://www.npmjs.com/package/@badend/chatbridge"><img src="https://img.shields.io/npm/dt/@badend/chatbridge?style=flat-square" alt="NPM Downloads"></a>
+  <a href="https://github.com/BadEnd777/ChatBridge"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FBadEnd777%2FChatBridge&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visit&edge_flat=false" alt="hits"></a>
 
-Chat Bridge is a library that allows you to create chatbots for Facebook Messenger. It is based on the Webhook API and uses Fastify as a server.
-
-## Table of Contents
-
-- [Credits](#credits)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API](#api)
-  - [Client](#client)
-  - [Collection](#collection)
-- [Templates](#templates)
-  - [QuickReplies](#quickreplies)
-  - [ButtonTemplate](#buttontemplate)
-  - [CouponTemplate](#coupontemplate)
-  - [FeedbackTemplate](#feedbacktemplate)
-  - [GenericTemplate](#generictemplate)
-  - [MediaTemplate](#mediatemplate)
-  - [ReceiptTemplate](#receipttemplate)
-  - [PersistentMenu](#persistentmenu)
-- [License](#license)
+  [Credits](#credits) - [Installation](#installation) - [Usage](#usage) - [API](#api) - [Templates](#templates) - [License](#license)
+</div>
 
 ## Credits
 
 - [Fastify](https://www.fastify.io/) - Fast and low overhead web framework, for Node.js
-- [axios](https://axios-http.com/) - Promise based HTTP client for the browser and node.js
+- [Undici](https://undici.nodejs.org/#/) - Fast and modern HTTP/1.1 and HTTP/2 client
 
 ## Installation
 
@@ -55,6 +39,14 @@ const client = new Client({
   verifyToken: "YOUR_VERIFY_TOKEN",
   webHookPath: "/webhook", // Optional
   port: 3000, // Optional
+});
+
+client.on("message", event => {
+  const { sender, message } = event;
+  const { text } = message;
+  const { id } = sender;
+
+  client.sendTextMessage(id, `You wrote: ${text}`);
 });
 
 client.start(); // Start the server
@@ -94,6 +86,21 @@ Adds a listener to the specified event.
 | :--------- | :--------- | :---------------- |
 | `event`    | `string`   | Event name        |
 | `callback` | `Function` | Callback function |
+
+Output:
+
+```js
+{
+  sender: {
+    id: "USER_ID",
+  },
+  recipient: {
+    id: "PAGE_ID",
+  },
+  timestamp: 1234567890,
+  // Message, Postback, Template, etc.
+}
+```
 
 #### `getUserInfo(userId)`
 
@@ -149,6 +156,21 @@ Returns an item from the collection.
 | Parameter | Type     | Description |
 | :-------- | :------- | :---------- |
 | `name`    | `string` | Item name   |
+
+Example:
+
+```js
+const { Collection } = require("@badend/chatbridge");
+
+const collection = new Collection();
+
+collection.add({
+  name: "item",
+  value: 1,
+});
+
+console.log(collection.get("item")); // { name: 'item', value: 1 }
+```
 
 ## Templates
 
@@ -362,3 +384,5 @@ client.setPersistentMenu(menu);
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+<hr />
