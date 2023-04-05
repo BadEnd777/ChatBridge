@@ -21,6 +21,17 @@ To install the library, run the following command:
 ```bash
 npm install @badend/chatbridge
 ```
+<!--  
+constructor({ accessToken, verifyToken, webHookPath, port, host }) {
+    this.events = {};
+    this.app = fastify();
+    this.accessToken = accessToken;
+    this.verifyToken = verifyToken;
+    this.webHookPath = webHookPath || "/webhook";
+    this.port = port || 3000;
+    this.host = host || "localhost";
+}
+-->
 
 ## Usage
 
@@ -28,8 +39,9 @@ To use the library, you need to create a new instance of the `Client` class and 
 
 - `accessToken` - Page Access Token of your Facebook App
 - `verifyToken` - Verify Token of your Facebook App
-  = `webHookPath` - Path to the webhook (default: `/webhook`)
+- `webHookPath` - Path to the webhook (default: `/webhook`)
 - `port` - Port on which the server will be launched (default: `3000`)
+- `host` - Host on which the server will be launched (default: `localhost`)
 
 ```js
 const { Client } = require("@badend/chatbridge");
@@ -37,8 +49,9 @@ const { Client } = require("@badend/chatbridge");
 const client = new Client({
   accessToken: "YOUR_ACCESS_TOKEN",
   verifyToken: "YOUR_VERIFY_TOKEN",
-  webHookPath: "/webhook", // Optional
-  port: 3000, // Optional
+  // webHookPath: "/webhook", // default
+  // port: 3000, // default
+  // host: "localhost", // default (only for development) or "0.0.0.0" (for production)
 });
 
 client.on("message", event => {

@@ -3,13 +3,14 @@ const { request } = require("undici");
 const fastify = require("fastify");
 const constants = require("./Constants");
 class Client {
-    constructor(options) {
+    constructor({ accessToken, verifyToken, webHookPath, port, host }) {
         this.events = {};
         this.app = fastify();
-        this.accessToken = options.accessToken;
-        this.verifyToken = options.verifyToken;
-        this.webHookPath = options.webHookPath || "/webhook";
-        this.port = options.port || 3000;
+        this.accessToken = accessToken;
+        this.verifyToken = verifyToken;
+        this.webHookPath = webHookPath || "/webhook";
+        this.port = port || 3000;
+        this.host = host || "localhost";
     }
     on(event, callback) {
         this.events[event] = callback;
@@ -47,7 +48,7 @@ class Client {
                 reply.send("Error, wrong validation token");
             }
         });
-        this.app.listen({ port: this.port }, (err, address) => {
+        this.app.listen({ port: this.port, host: this.host }, (err, address) => {
             if (err) {
                 console.error(err);
                 process.exit(1);
