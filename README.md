@@ -2,11 +2,12 @@
   <h1>Chat Bridge</h1>
   <p><strong>Chat Bridge</strong> is a library that help you to create chatbots for Facebook Messenger. Just write a few lines of code and you can create a chatbot. It is based on the Webhook API and uses Fastify as a server.</p>
 
-  <a href="https://www.npmjs.com/package/@badend/chatbridge"><img src="https://img.shields.io/npm/v/@badend/chatbridge?style=flat-square" alt="NPM Version"></a>
-  <a href="https://www.npmjs.com/package/@badend/chatbridge"><img src="https://img.shields.io/npm/dt/@badend/chatbridge?style=flat-square" alt="NPM Downloads"></a>
-  <a href="https://github.com/BadEnd777/ChatBridge"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FBadEnd777%2FChatBridge&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visit&edge_flat=false" alt="hits"></a>
+<a href="https://www.npmjs.com/package/@badend/chatbridge"><img src="https://img.shields.io/npm/v/@badend/chatbridge?style=flat-square" alt="NPM Version"></a>
+<a href="https://www.npmjs.com/package/@badend/chatbridge"><img src="https://img.shields.io/npm/dt/@badend/chatbridge?style=flat-square" alt="NPM Downloads"></a>
+<a href="https://github.com/BadEnd777/ChatBridge"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FBadEnd777%2FChatBridge&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visit&edge_flat=false" alt="hits"></a>
 
-  [Credits](#credits) - [Installation](#installation) - [Usage](#usage) - [API](#api) - [Templates](#templates) - [License](#license)
+[Credits](#credits) - [Installation](#installation) - [Usage](#usage) - [API](#api) - [Templates](#templates) - [License](#license)
+
 </div>
 
 ## Credits
@@ -21,17 +22,6 @@ To install the library, run the following command:
 ```bash
 npm install @badend/chatbridge
 ```
-<!--  
-constructor({ accessToken, verifyToken, webHookPath, port, host }) {
-    this.events = {};
-    this.app = fastify();
-    this.accessToken = accessToken;
-    this.verifyToken = verifyToken;
-    this.webHookPath = webHookPath || "/webhook";
-    this.port = port || 3000;
-    this.host = host || "localhost";
-}
--->
 
 ## Usage
 
@@ -54,7 +44,7 @@ const client = new Client({
   // host: "localhost", // default (only for development) or "0.0.0.0" (for production)
 });
 
-client.on("message", event => {
+client.on("message", (event) => {
   const { sender, message } = event;
   const { text } = message;
   const { id } = sender;
@@ -71,17 +61,17 @@ client.start(); // Start the server
 
 The `Client` class is the main class of the library. It is responsible for creating a webhook and handling messages.
 
-#### `constructor(options)`
+#### `constructor({ accessToken, verifyToken, webHookPath, port, host })`
 
 Creates a new instance of the `Client` class.
 
-| Parameter             | Type     | Description                                                 |
-| :-------------------- | :------- | :---------------------------------------------------------- |
-| `options`             | `Object` | Configuration object                                        |
-| `options.accessToken` | `string` | Page Access Token of your Facebook App                      |
-| `options.verifyToken` | `string` | Verify Token of your Facebook App                           |
-| `options.webHookPath` | `string` | Path to the webhook (default: `/webhook`)                   |
-| `options.port`        | `number` | Port on which the server will be launched (default: `3000`) |
+| Parameter     | Type     | Description                                                      |
+| :------------ | :------- | :--------------------------------------------------------------- |
+| `accessToken` | `string` | Page Access Token of your Facebook App                           |
+| `verifyToken` | `string` | Verify Token of your Facebook App                                |
+| `webHookPath` | `string` | Path to the webhook (default: `/webhook`)                        |
+| `port`        | `number` | Port on which the server will be launched (default: `3000`)      |
+| `host`        | `string` | Host on which the server will be launched (default: `localhost`) |
 
 #### `start(callback)`
 
